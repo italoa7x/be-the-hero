@@ -13,8 +13,6 @@ export default function Register() {
     const [uf,  setUf] = useState('');
 
     const history = useHistory();
-
-
     async function handleRegister(e) {
         e.preventDefault();
         const data = {
