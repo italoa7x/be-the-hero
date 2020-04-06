@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import ReactInputMask from 'react-input-mask'; 
 import logoImg from '../../assets/logo.svg';
 import { Link, useHistory } from 'react-router-dom';
 import { FiArrowLeft } from 'react-icons/fi';
@@ -11,6 +12,7 @@ export default function Register() {
     const [whatsapp, setWhatsapp] = useState('');
     const [city, setCity] = useState('');
     const [uf,  setUf] = useState('');
+    const [password,  setPassword] = useState('');
 
     const history = useHistory();
     async function handleRegister(e) {
@@ -18,13 +20,16 @@ export default function Register() {
         const data = {
             name,
             email,
+            password,
             whatsapp,
             city,
             uf
         };
         try {
             const response = await api.post('ongs', data);
-            alert(`Seu ID de acesso: ${response.data.id}`);
+            if(response.data.id != null) {
+                alert('ONG cadastrada com sucesso!');
+            }
             history.push('/');
         } catch(err){
             alert(`Erro no cadastro, tente novamente`)
@@ -45,32 +50,38 @@ export default function Register() {
 
                 <form onSubmit = {handleRegister}>
                     <input
-                        placeholder="Nome da ONG"
+                        placeholder="Nome da ONG" required={true}
                         value={name}
                         onChange={e => setName(e.target.value)}
                     />
 
-                    <input type="email"
+                    <input type="email" required={true}
                         placeholder="E-mail"
                         value={email}
                         onChange={e => setEmail(e.target.value)}
                     />
+                   
+                    <input type="password" required={true}
+                        placeholder="Senha"
+                        value={password}
+                        onChange={pass => setPassword(pass.target.value)}
+                    />
 
-                    <input
-                        placeholder="WhatsApp"
+                    <ReactInputMask type="tel" mask="(99)9-9999-9999" maskChar={null}
+                        placeholder="WhatsApp" required={true} 
                         value={whatsapp}
                         onChange={e => setWhatsapp(e.target.value)}
                     />
 
                     <div className="input-group">
                         <input
-                            placeholder="Cidade"
+                            placeholder="Cidade" required={true}
                             value={city}
                             onChange={e => setCity(e.target.value)}
                         />
 
                         <input
-                            placeholder="UF" style={{ width: 80 }} minLength="2" maxLength="2"
+                            placeholder="UF" style={{ width: 80 }} minLength="2" maxLength="2" required={true}
                             value={uf}
                             onChange={e => setUf(e.target.value)}
                         />

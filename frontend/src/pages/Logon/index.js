@@ -7,18 +7,19 @@ import { FiLogIn } from 'react-icons/fi';
 import api from '../../services/api';
 
 export default function Logon(){
-    const [id, setId] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
     const history = useHistory();
 
     async function handleLogin(e){
         e.preventDefault();
         try{
-            const response = await api.post('/sessions', { id });
-            localStorage.setItem('ongId', id);
+            const response = await api.post('/sessions', { email, password });
+            localStorage.setItem('ongId', response.data.id);
             localStorage.setItem('ongName', response.data.name);
             history.push('/profile');
         }catch(err){
-            alert('Falha no login. Tente novamente.')
+            alert('Falha no login. Tente novamente.' + err)
         }
     }
 
@@ -28,11 +29,17 @@ export default function Logon(){
                 <img src = {logoImage} alt="Be The Hero"></img>
                 <form onSubmit = {handleLogin}>
                     <h1>Faça seu logon</h1>
-                    <input placeHolder="Digite seu ID"
-                    value={id}
-                    onChange={i => {setId(i.target.value)}}
+
+                    <input placeholder="Digite seu e-mail." type="email" required={true}
+                    value={email}
+                    onChange={em => {setEmail(em.target.value)}}
                     />
-                    <button className="button" type="submit"Entrar>Entrar</button>
+                    
+                    <input placeholder="Digite sua senha" type="password"  required={true}
+                    value={password}
+                    onChange={pass => {setPassword(pass.target.value)}}
+                    />
+                    <button className="button" type="submit">Entrar</button>
 
                     <Link className="back-link" to="/register">
                         <FiLogIn size={16} color="#e02041" />

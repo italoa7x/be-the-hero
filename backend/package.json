@@ -7,7 +7,7 @@
     "start": "nodemon ./src/index.js"
   },
   "keywords": [],
-  "author": "",
+  "author": "José Ítalo Alves da Silva",
   "license": "ISC",
   "dependencies": {
     "celebrate": "^12.0.1",
